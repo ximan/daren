@@ -1,0 +1,19 @@
+/* 隐藏 1024 帖子广告 */
+table .sptable{
+    display: none;
+}
+
+/* 隐藏 91 iframe广告 */
+iframe{
+    display: none;
+}
+
+/* 隐藏 91 视频详情右侧广告 */
+#rightside{
+    display: none;
+}
+
+/* 隐藏 蝌蚪窝 广告 */
+noindex{
+    display: none;
+}

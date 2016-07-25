@@ -1,0 +1,30 @@
+{
+    "name": "大人网站辅助",
+    "description": "浏览大人网站时，提供一些辅助功能",
+    "version": "0.1.0",
+    "manifest_version": 2,
+    "homepage_url": "https://github.com/ximan/daren",
+    "icons": {
+        "16":"images/ico16.png",
+        "48":"images/ico48.png",
+        "128":"images/ico128.png"
+    },
+    "permissions": [
+        "contextMenus"
+    ],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "css":["style.css"],
+            "js":["contentscript.js"]
+        }
+    ],
+    "browser_action":{
+        "default_title": "大人网站辅助",
+        "default_icon": "images/ico48.png",
+        "default_popup": "popup.html"
+    }
+}
