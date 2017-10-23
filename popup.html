@@ -9,17 +9,43 @@
     padding: 0;
 }
 .main{
-    width: 300px;
+    width: 350px;
     padding: 10px;
     line-height: 20px;
     font-size: 14px;
     color: #333;
 }
+p{
+    line-height: 20px;
+}
+.content{
+    margin: 10px 0;
+}
+.content textarea{
+    width: 250px;
+}
+.content textarea,.content input[type="button"]{
+    line-height: 1.42857143;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    vertical-align: bottom;
+}
+#msg{
+    min-height: 20px;
+}
 </style>
 </head>
 <body>
 <div class="main">
-    浏览普通网站时，建议关闭此软件，避免冲突——西门
+    <p>浏览普通网站时，建议关闭此软件，避免冲突——西门</p>
+    <div class="content">
+        <textarea rows="5" placeholder="请输入需要高亮的关键字，用回车隔开"></textarea>
+        <input type="button" value="保存" id="btn">
+    </div>
+    <p id="msg"></p>
 </div>
+<script src="popup.js"></script>
 </body>
 </html>

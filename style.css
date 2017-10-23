@@ -4,9 +4,9 @@ table .sptable{
 }
 
 /* 隐藏 91 iframe广告 */
-iframe{
+/*iframe{
     display: none;
-}
+}*/
 
 /* 隐藏 91 视频详情右侧广告 */
 #rightside{
