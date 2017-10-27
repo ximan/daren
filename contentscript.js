@@ -15,17 +15,30 @@ if(noindexs.length > 0){
 }
 
 // 发送信息，索要关键字
-chrome.runtime.sendMessage('getKeyword', function(response) {
-    // console.log('页面收到',response);
-    // 返回数组有内容，才做循环
-    if(!!response && response.length > 0){
+chrome.runtime.sendMessage({getKeyword: 'getKeyword'}, function(response) {
+    if(!response){
+        return false;
+    }
+
+    // 高亮关键字
+    if('keyword' in response && response.keyword.length > 0){
         [].forEach.call(document.querySelectorAll('tr'), function(item) {
-            response.forEach(function(key){
+            response.keyword.forEach(function(key){
                 if(item.innerHTML.indexOf(key) > -1){
                     var re = new RegExp('('+key+')', 'g');
                     item.innerHTML = item.innerHTML.replace(re, '<span style="font-size:120%;color:red;text-shadow:1px 1px #000;">$1</span>');
                 }
             });
         });
+    }
+    // 删除iframe广告
+    if('disabledIframe' in response && response.disabledIframe){
+        function removeIframe(){
+            [].forEach.call(document.querySelectorAll('iframe'), function(item) {
+                item.parentNode.removeChild(item);
+            });
+        }
+        removeIframe();
+        setInterval(removeIframe,10000);
     }
 });
