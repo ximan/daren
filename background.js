@@ -1,5 +1,5 @@
-// 支持的网址
-var supportURL = [
+// 支持图片的网址
+var supportImageURL = [
     "http://*.imagetwist.com/*",
     "http://*.imgchili.net/*",
     "http://*.dmm.co.jp/*",
@@ -7,6 +7,28 @@ var supportURL = [
     "http://img588.net/*",
     "http://*.t6k.co/*"
 ];
+// 支持视频的网址
+var supportVideoURL = [
+    "http://*.t6k.co/*"
+];
+// 右键菜单-查看原图
+chrome.contextMenus.create({
+    "title": "🌅查看原图",
+    // 在image上点击右键才出现
+    "contexts": ["image"],
+    // 匹配此规则的image src
+    "targetUrlPatterns": supportImageURL,
+    "onclick": openImage
+});
+// 右键菜单-打开视频
+chrome.contextMenus.create({
+    "title": "🎬播放视频",
+    // 在image上点击右键才出现
+    "contexts": ["image"],
+    // 匹配此规则的image src
+    "targetUrlPatterns": supportVideoURL,
+    "onclick": openVideo
+});
 // 打开图片
 function openImage(info, tab) {
     // 当前图片的src
@@ -35,20 +57,23 @@ function openImage(info, tab) {
         "index": tab.index+1,
         "selected": true
     });
-    // js打开
-    // window.open(info.srcUrl);
-    
-    
 }
-// 右键菜单
-var images = chrome.contextMenus.create({
-    "title": "查看原图",
-    // 在image上点击右键才出现
-    "contexts": ["image"],
-    // 匹配此规则的image src
-    "targetUrlPatterns": supportURL,
-    "onclick": openImage
-}); 
+// 打开视频
+function openVideo(info, tab){
+    // 当前图片url
+    var picUrl = info.srcUrl;
+    var id = 0;
+    picUrl.replace(/\d_(\d+)\.jpg/, function($0, $1){
+        id = $1;
+    });
+    var videoUrl = 'http://192.240.120.35//mp43/'+id+'.mp4?st=T-h-Gwn58SiFF3bWYSZmCw&e=1509012476';
+    // 发送视频url给前台
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {setVideoUrl: videoUrl}, function(response) {
+            console.log('发送视频url');
+        });
+    });
+}
 
 /*
 特别注意：background.js只会在插件更新时加载一次，页面刷新不会执行。所以下面代码只会执行一次。

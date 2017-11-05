@@ -1,11 +1,3 @@
-// 删除 91 iframe广告
-// var iframes = document.querySelectorAll('iframe');
-// if(iframes.length > 0){
-//     for(var i=0; i<iframes.length; i++){
-//         iframes[i].parentNode.removeChild(iframes[i]);
-//     }
-// }
-
 // 删除 蝌蚪窝 广告
 var noindexs = document.querySelectorAll('noindex');
 if(noindexs.length > 0){
@@ -42,3 +34,22 @@ chrome.runtime.sendMessage({getKeyword: 'getKeyword'}, function(response) {
         setInterval(removeIframe,10000);
     }
 });
+
+// 接收视频url
+chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
+    if('setVideoUrl' in response){
+        var fixedVideo = document.createElement('div');
+        fixedVideo.id = 'darenFixedVideo';
+        fixedVideo.setAttribute('style', 'position:fixed;left:0;top:0;z-index:999999;width:100%;height:100%;background-color:rgba(0,0,0,0.6);');
+        fixedVideo.innerHTML = '<video src="'+response.setVideoUrl+'" controls autoplay style="position:fixed;left:50%;top:50%;width:600px;height:500px;background-color:#000;transform:translate(-50%,-50%);"></video>'
+        document.body.appendChild(fixedVideo);
+    }
+});
+
+// 关闭视频
+window.addEventListener('click',function(e){
+    if(e.target.id == 'darenFixedVideo'){
+        var fixedVideo = document.querySelector('#darenFixedVideo');
+        fixedVideo.parentNode.removeChild(fixedVideo);
+    }
+},false);
